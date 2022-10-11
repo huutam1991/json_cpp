@@ -135,3 +135,17 @@ arr.for_each_with_index([](size_t index, Json& child)
     std::cout << "child = " << child << std::endl;
 });
 ```
+Sort array
+```cpp
+Json arr_sort = Json::create_array();
+arr_sort[0] = {"value", 712};
+arr_sort[1] = {"value", 4334};
+arr_sort[2] = {"value", 132};
+std::cout << "arr_sort = " << arr_sort << std::endl; // [{"value":712},{"value":4334},{"value":132}]
+
+arr_sort.sort([](Json& a, Json& b) -> bool
+{
+    return (int)a["value"] < (int)b["value"];
+});
+std::cout << "arr_sort = " << arr_sort << std::endl; // [{"value":132},{"value":712},{"value":4334}]
+```
