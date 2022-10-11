@@ -2,8 +2,7 @@
 Very simple, very fast Json for C++
 
 # Usage
-Very simple, just copy 2 folders **include/json** and **src/json** to your project, then put **#include <json/json.h>** to the file's header (pls take a look at **main.cpp**)
-That's it !!!
+Very simple, just copy 2 folders **include/json** and **src/json** to your project, then put **#include <json/json.h>** to the file's header (pls take a look at **src/main.cpp**). That's it !!!
 
 # Example
 Create a json object
@@ -25,7 +24,7 @@ Or put a **value** using **key** (string)
 ```cpp
 Json json;
 json["currency"] = "USDT";
-json["value"] = "24.55";
+json["value"] = 24.55;
 json["user_info"] = {
   {"user_name", "TamNguyen"},
   {"team_size", 1},
@@ -53,8 +52,8 @@ std::cout << "p = " << p << std::endl; // {"value":345}
 Set value (you can put value of any type as you wish)
 ```cpp
 Json value;
-value["int"] = 5142;
-value["float"] = (float)1231.242;
+value["int"] = -512342;
+value["float"] = 1231.242;
 value["string"] = std::string("Text");
 value["string2"] = "Text 2";
 value["bool"] = true;
@@ -64,7 +63,7 @@ value["array"] = Json::create_array();
 Get value (pls specific the type of value)
 ```cpp
 long a = value["int"];
-long double b = value["float"];
+double b = value["float"];
 std::string s1 = value["string"];
 std::string s2 = value["string2"];
 bool d = value["bool"];

@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
     Json json2;
     json2["currency"] = "USDT";
-    json2["value"] = "24.55";
+    json2["value"] = 24.55;
     json2["user_info"] = {
         {"user_name", "TamNguyen"},
         {"team_size", 1},
