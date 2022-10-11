@@ -15,6 +15,8 @@ private:
     std::shared_ptr<JsonTypeBase> m_value = nullptr;
 
     void check_create_json_object(Json& json);
+    template<class T>
+    T check_cast_value_by_type(bool& is_castable);
 
 public:
     Json();
@@ -146,6 +148,20 @@ Json& Json::operator-=(T value)
     }
 
     return *this;
+}
+
+template<class T>
+T Json::check_cast_value_by_type(bool& is_castable)
+{
+    JsonValue<T>* ptr = dynamic_cast<JsonValue<T>*>(m_value.get());
+    if (ptr != nullptr)
+    {
+        is_castable = true;
+        return (T)*ptr;
+    }
+
+    is_castable = false;
+    return T();
 }
 
 struct JsonNull

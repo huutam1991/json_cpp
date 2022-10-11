@@ -31,14 +31,14 @@ int main(int argc, char **argv)
     Json json3 = {"tam", 131.2342};
 
     // Print out example
-    std::cout << "json = " << json << std::endl;
-    std::cout << "json = " << json2 << std::endl;
-    std::cout << "json = " << json3.get_string_value() << std::endl;
+    Json data;
+    data["type"] = "Car";
+    std::cout << "data = " << data << std::endl;
 
     // Set/Get value
     Json value;
-    value["int"] = 5142;
-    value["float"] = (float)1231.242;
+    value["int"] = -512342;
+    value["float"] = 1231.242;
     value["string"] = std::string("Text");
     value["string2"] = "Text 2";
     value["bool"] = true;
@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     value["array"] = Json::create_array();
 
     long a = value["int"];
-    long double b = value["float"];
+    double b = value["float"];
     std::string s1 = value["string"];
     std::string s2 = value["string2"];
     bool d = value["bool"];

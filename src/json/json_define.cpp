@@ -234,44 +234,136 @@ std::stringstream& operator<<(std::stringstream& ss, const JsonNull& json_null)
 template<>
 Json::operator int()
 {
+    bool is_castable = false;
+
+    // long
+    long long_val = check_cast_value_by_type<long>(is_castable);
+    if (is_castable)
+    {
+        return (int)long_val;
+    }
+
+    // long long
+    long long long_long_val = check_cast_value_by_type<long long>(is_castable);
+    if (is_castable)
+    {
+        return (int)long_long_val;
+    }
+
+    // size_t
+    size_t size_t_val = check_cast_value_by_type<size_t>(is_castable);
+    if (is_castable)
+    {
+        return (int)size_t_val;
+    }
+
     return *(JsonValue<int>*)m_value.get();
 }
 
 template<>
 Json::operator long()
 {
+    bool is_castable = false;
+
+    // int
+    int int_val = check_cast_value_by_type<int>(is_castable);
+    if (is_castable)
+    {
+        return (long)int_val;
+    }
+
+    // long long
+    long long long_long_val = check_cast_value_by_type<long long>(is_castable);
+    if (is_castable)
+    {
+        return (long)long_long_val;
+    }
+
+    // size_t
+    size_t size_t_val = check_cast_value_by_type<size_t>(is_castable);
+    if (is_castable)
+    {
+        return (long)size_t_val;
+    }
+
     return *(JsonValue<long>*)m_value.get();
 }
 
 template<>
 Json::operator long long()
 {
+    bool is_castable = false;
+
+    // int
+    int int_val = check_cast_value_by_type<int>(is_castable);
+    if (is_castable)
+    {
+        return (long long)int_val;
+    }
+
+    // long
+    long long_val = check_cast_value_by_type<long>(is_castable);
+    if (is_castable)
+    {
+        return (long long)long_val;
+    }
+
+    // size_t
+    size_t size_t_val = check_cast_value_by_type<size_t>(is_castable);
+    if (is_castable)
+    {
+        return (long long)size_t_val;
+    }
+
     return *(JsonValue<long long>*)m_value.get();
 }
 
 template<>
 Json::operator size_t()
 {
+    bool is_castable = false;
+
+    // int
+    int int_val = check_cast_value_by_type<int>(is_castable);
+    if (is_castable)
+    {
+        return (size_t)int_val;
+    }
+
+    // long
+    long long_val = check_cast_value_by_type<long>(is_castable);
+    if (is_castable)
+    {
+        return (size_t)long_val;
+    }
+
+    // long long
+    long long long_long_val = check_cast_value_by_type<long long>(is_castable);
+    if (is_castable)
+    {
+        return (size_t)long_long_val;
+    }
+
     return *(JsonValue<size_t>*)m_value.get();
 }
 
 template<>
 Json::operator float()
 {
+    bool is_castable = false;
+
     // double
-    JsonValue<double>* ptr_d = dynamic_cast<JsonValue<double>*>(m_value.get());
-    if (ptr_d != nullptr)
+    double double_val = check_cast_value_by_type<double>(is_castable);
+    if (is_castable)
     {
-        double value = *ptr_d;
-        return float(value);
+        return (float)double_val;
     }
 
     // long double
-    JsonValue<long double>* ptr_ld = dynamic_cast<JsonValue<long double>*>(m_value.get());
-    if (ptr_ld != nullptr)
+    long double long_double_val = check_cast_value_by_type<long double>(is_castable);
+    if (is_castable)
     {
-        long double value = *ptr_ld;
-        return float(value);
+        return (float)long_double_val;
     }
 
     return *(JsonValue<float>*)m_value.get();
@@ -280,20 +372,20 @@ Json::operator float()
 template<>
 Json::operator double()
 {
+    bool is_castable = false;
+
     // float
-    JsonValue<float>* ptr_f = dynamic_cast<JsonValue<float>*>(m_value.get());
-    if (ptr_f != nullptr)
+    float float_val = check_cast_value_by_type<float>(is_castable);
+    if (is_castable)
     {
-        float value = *ptr_f;
-        return double(value);
+        return (double)float_val;
     }
 
     // long double
-    JsonValue<long double>* ptr_ld = dynamic_cast<JsonValue<long double>*>(m_value.get());
-    if (ptr_ld != nullptr)
+    long double long_double_val = check_cast_value_by_type<long double>(is_castable);
+    if (is_castable)
     {
-        long double value = *ptr_ld;
-        return double(value);
+        return (double)long_double_val;
     }
 
     return *(JsonValue<double>*)m_value.get();
@@ -302,20 +394,20 @@ Json::operator double()
 template<>
 Json::operator long double()
 {
+    bool is_castable = false;
+
     // float
-    JsonValue<float>* ptr_f = dynamic_cast<JsonValue<float>*>(m_value.get());
-    if (ptr_f != nullptr)
+    float float_val = check_cast_value_by_type<float>(is_castable);
+    if (is_castable)
     {
-        float value = *ptr_f;
-        return (long double)value;
+        return (long double)float_val;
     }
 
     // double
-    JsonValue<double>* ptr_d = dynamic_cast<JsonValue<double>*>(m_value.get());
-    if (ptr_d != nullptr)
+    double double_val = check_cast_value_by_type<double>(is_castable);
+    if (is_castable)
     {
-        double value = *ptr_d;
-        return (long double)value;
+        return (long double)double_val;
     }
 
     return *(JsonValue<long double>*)m_value.get();
