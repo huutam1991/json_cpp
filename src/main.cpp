@@ -68,6 +68,24 @@ int main(int argc, char **argv)
     std::cout << "number = " << number << std::endl; // {"v":0}
 
     // Loop through child
+    Json loop = {
+        {"child1", 1},
+        {"child2", 2},
+        {"child3", 3},
+        {"child4", 4},
+        {"child5", 5},
+    };
+    loop.for_each([](Json& child)
+    {
+        std::cout << "child = " << child << std::endl;
+    });
+
+    // Loop through child with key
+    loop.for_each_with_key([](const std::string& key, Json& child)
+    {
+        std::cout << "key = " << key << std::endl;
+        std::cout << "child = " << child << std::endl;
+    });
 
     std::cout << "Main exit" << std::endl;
 

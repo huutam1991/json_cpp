@@ -2,7 +2,7 @@
 Very simple, very fast Json for C++
 
 # Usage
-Very simple, just copy files from 2 folders **include/json** + **src/json** to your project, then put **#include <json/json.h>** to the file's header (pls take a look at **main.cpp**)
+Very simple, just copy files from 2 folders **include/json** and **src/json** to your project, then put **#include <json/json.h>** to the file's header (pls take a look at **main.cpp**)
 
 # Example
 Create a json object
@@ -72,4 +72,26 @@ number["v"] += 2;
 std::cout << "number = " << number << std::endl; // {"v":3}
 number["v"] -= 3;
 std::cout << "number = " << number << std::endl; // {"v":0}
+```
+Loop through child
+```cpp
+Json loop = {
+  {"child1", 1},
+  {"child2", 2},
+  {"child3", 3},
+  {"child4", 4},
+  {"child5", 5},
+};
+loop.for_each([](Json& child)
+{
+  std::cout << "child = " << child << std::endl;
+});
+```
+Loop through child with key
+```cpp
+loop.for_each_with_key([](const std::string& key, Json& child)
+{
+  std::cout << "key = " << key << std::endl;
+  std::cout << "child = " << child << std::endl;
+});
 ```
