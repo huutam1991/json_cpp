@@ -46,16 +46,30 @@ std::string json_str = json.get_string_value();
 ```
 Set value (you can put value of any type as you wish)
 ```cpp
-Json json;
-json["int"] = 123;
-json["float"] = 1231.242;
-json["string"] = std::string("Text");
-json["bool"] = true;
+Json value;
+value["int"] = 5142;
+value["float"] = (float)1231.242;
+value["string"] = std::string("Text");
+value["string2"] = "Text 2";
+value["bool"] = true;
+value["json"] = {"author", "TamNguyen"};
 ```
 Get value (pls specific the type of value)
 ```cpp
-int a = json["int"];
-float b = json["float"];
-std::string c = json["string"];
-bool d = json["bool"];
+long a = value["int"];
+long double b = value["float"];
+std::string s1 = value["string"];
+std::string s2 = value["string2"];
+bool d = value["bool"];
+Json object = value["json"];
+```
+Increase/decrease by value (for type number only)
+```cpp
+Json number;
+number["v"] = 1;
+std::cout << "number = " << number << std::endl; // {"v":1}
+number["v"] += 2;
+std::cout << "number = " << number << std::endl; // {"v":3}
+number["v"] -= 3;
+std::cout << "number = " << number << std::endl; // {"v":0}
 ```

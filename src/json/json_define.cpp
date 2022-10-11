@@ -249,17 +249,86 @@ Json::operator size_t()
 template<>
 Json::operator float()
 {
+    // double
+    JsonValue<double>* ptr_d = dynamic_cast<JsonValue<double>*>(m_value.get());
+    if (ptr_d != nullptr)
+    {
+        double value = *ptr_d;
+        return float(value);
+    }
+
+    // long double
+    JsonValue<long double>* ptr_ld = dynamic_cast<JsonValue<long double>*>(m_value.get());
+    if (ptr_ld != nullptr)
+    {
+        long double value = *ptr_ld;
+        return float(value);
+    }
+
     return *(JsonValue<float>*)m_value.get();
 }
 
 template<>
 Json::operator double()
 {
+    // float
+    JsonValue<float>* ptr_f = dynamic_cast<JsonValue<float>*>(m_value.get());
+    if (ptr_f != nullptr)
+    {
+        float value = *ptr_f;
+        return double(value);
+    }
+
+    // long double
+    JsonValue<long double>* ptr_ld = dynamic_cast<JsonValue<long double>*>(m_value.get());
+    if (ptr_ld != nullptr)
+    {
+        long double value = *ptr_ld;
+        return double(value);
+    }
+
     return *(JsonValue<double>*)m_value.get();
 }
 
 template<>
 Json::operator long double()
 {
+    // float
+    JsonValue<float>* ptr_f = dynamic_cast<JsonValue<float>*>(m_value.get());
+    if (ptr_f != nullptr)
+    {
+        float value = *ptr_f;
+        return (long double)value;
+    }
+
+    // double
+    JsonValue<double>* ptr_d = dynamic_cast<JsonValue<double>*>(m_value.get());
+    if (ptr_d != nullptr)
+    {
+        double value = *ptr_d;
+        return (long double)value;
+    }
+
     return *(JsonValue<long double>*)m_value.get();
+}
+
+template<>
+Json::operator std::string()
+{
+    // const char
+    JsonValue<const char*>* ptr_c = dynamic_cast<JsonValue<const char*>*>(m_value.get());
+    if (ptr_c != nullptr)
+    {
+        const char* value = *ptr_c;
+        return std::string(value);
+    }
+
+    // string
+    JsonValue<std::string>* ptr_s = dynamic_cast<JsonValue<std::string>*>(m_value.get());
+    if (ptr_s != nullptr)
+    {
+        return *(JsonValue<std::string>*)m_value.get();
+    }
+
+    return std::string();
 }
