@@ -9,3 +9,16 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+
+# Executables
+*.exe
+*.out
+*.app
+json_cpp
+
+# Build folder
+build/
+
+# Targets log
+.vscode/targets.log
+.vscode/settings.json
