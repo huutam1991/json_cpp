@@ -20,3 +20,21 @@ Json json = {
   }
 };
 ```
+Or put a **value** using **key** (string)
+```cpp
+Json json;
+json["currency"] = "USDT";
+json["value"] = "24.55";
+json["user_info"] = {
+  {"user_name", "TamNguyen"},
+  {"team_size", 1},
+  {"is_developer", true},
+  {"is_devops", false}
+};
+```
+Print out console
+```cpp
+Json json;
+json["type"] = "Car";
+std::cout << "json = " << json << std::endl;
+```
