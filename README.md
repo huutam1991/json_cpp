@@ -44,6 +44,11 @@ Json json;
 json["type"] = "Car";
 std::string json_str = json.get_string_value();
 ```
+Parse from string
+```cpp
+Json parse = Json::parse("{\"value\": 345}");
+std::cout << "parse = " << parse << std::endl; // {"value":345}
+```
 Set value (you can put value of any type as you wish)
 ```cpp
 Json value;

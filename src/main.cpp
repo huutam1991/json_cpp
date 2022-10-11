@@ -87,6 +87,10 @@ int main(int argc, char **argv)
         std::cout << "child = " << child << std::endl;
     });
 
+    // Parse from string
+    Json parse = Json::parse("{\"value\": 345}");
+    std::cout << "parse = " << parse << std::endl; // {"value":345}
+
     std::cout << "Main exit" << std::endl;
 
     return EXIT_SUCCESS;
