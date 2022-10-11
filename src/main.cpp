@@ -43,6 +43,7 @@ int main(int argc, char **argv)
     value["string2"] = "Text 2";
     value["bool"] = true;
     value["json"] = {"author", "TamNguyen"};
+    value["array"] = Json::create_array();
 
     long a = value["int"];
     long double b = value["float"];
@@ -50,6 +51,7 @@ int main(int argc, char **argv)
     std::string s2 = value["string2"];
     bool d = value["bool"];
     Json object = value["json"];
+    Json array = value["array"];
 
     std::cout << "a = " << a << std::endl;
     std::cout << "b = " << b << std::endl;
@@ -57,6 +59,7 @@ int main(int argc, char **argv)
     std::cout << "s2 = " << s2 << std::endl;
     std::cout << "d = " << d << std::endl;
     std::cout << "object = " << object << std::endl;
+    std::cout << "array = " << array << std::endl;
 
     // Increase/decrease by value (for type number only)
     Json number;
@@ -88,8 +91,26 @@ int main(int argc, char **argv)
     });
 
     // Parse from string
-    Json parse = Json::parse("{\"value\": 345}");
-    std::cout << "parse = " << parse << std::endl; // {"value":345}
+    Json p = Json::parse("{\"value\": 345}");
+    std::cout << "p = " << p << std::endl; // {"value":345}
+
+    // Json array
+    Json arr = Json::create_array();
+    std::cout << "array = " << arr << std::endl; // []
+    arr[0] = 234;
+    arr[1] = 34.58;
+    arr[2] = false;
+    arr[3] = true;
+    arr[4] = "TamNguyen";
+    arr[5] = {"color", "green"};
+    std::cout << "array = " << arr << std::endl; // [234,34.58,false,true,"TamNguyen",{"color":"green"}]
+
+    // Loop through array with index
+    arr.for_each_with_index([](size_t index, Json& child)
+    {
+        std::cout << "index = " << index << std::endl;
+        std::cout << "child = " << child << std::endl;
+    });
 
     std::cout << "Main exit" << std::endl;
 

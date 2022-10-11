@@ -46,8 +46,8 @@ std::string json_str = json.get_string_value();
 ```
 Parse from string
 ```cpp
-Json parse = Json::parse("{\"value\": 345}");
-std::cout << "parse = " << parse << std::endl; // {"value":345}
+Json p = Json::parse("{\"value\": 345}");
+std::cout << "p = " << p << std::endl; // {"value":345}
 ```
 Set value (you can put value of any type as you wish)
 ```cpp
@@ -98,5 +98,25 @@ loop.for_each_with_key([](const std::string& key, Json& child)
 {
   std::cout << "key = " << key << std::endl;
   std::cout << "child = " << child << std::endl;
+});
+```
+Json array
+```cpp
+Json array = Json::create_array();
+std::cout << "array = " << array << std::endl; // []
+array[0] = 234;
+array[1] = 34.58;
+array[2] = false;
+array[3] = true;
+array[4] = "TamNguyen";
+array[5] = {"color", "green"};
+std::cout << "array = " << array << std::endl; // [234,34.58,false,true,"TamNguyen",{"color":"green"}]
+```
+Loop through array with index
+```cpp
+arr.for_each_with_index([](size_t index, Json& child)
+{
+    std::cout << "index = " << index << std::endl;
+    std::cout << "child = " << child << std::endl;
 });
 ```

@@ -217,6 +217,15 @@ Json Json::parse(const std::string& json_string)
     return json_parse.parse(json_string);;
 }
 
+Json Json::create_array()
+{
+    Json res;
+    res.check_create_json_object(res); // Create JsonObject if it does not exist
+    JsonObject& json_object = *(JsonObject*)res.m_value.get();
+    json_object.m_is_object = false; // make this json an array
+    return res;
+}
+
 std::stringstream& operator<<(std::stringstream& ss, const JsonNull& json_null)
 {
     return ss;

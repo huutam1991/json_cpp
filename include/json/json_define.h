@@ -28,6 +28,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& cout, const Json& json);
     static Json parse(const std::string&);
+    static Json create_array();
 
     const std::string get_string_value() const;
     void remove_field(const std::string& field);
