@@ -58,6 +58,7 @@ value["string"] = std::string("Text");
 value["string2"] = "Text 2";
 value["bool"] = true;
 value["json"] = {"author", "TamNguyen"};
+value["array"] = Json::create_array();
 ```
 Get value (pls specific the type of value)
 ```cpp
@@ -67,6 +68,7 @@ std::string s1 = value["string"];
 std::string s2 = value["string2"];
 bool d = value["bool"];
 Json object = value["json"];
+Json array = value["array"];
 ```
 Increase/decrease by value (for type number only)
 ```cpp
