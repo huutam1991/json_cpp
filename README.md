@@ -1,8 +1,8 @@
-# json_cpp
+# C++ Json
 Very simple, very fast Json for C++
 
 # Usage
-Very simple, just copy files from 2 folders **include/json** and **src/json** to your project, then put **#include <json/json.h>** to the file's header (pls take a look at **main.cpp**)
+Very simple, just copy 2 folders **include/json** and **src/json** to your project, then put **#include <json/json.h>** to the file's header (pls take a look at **main.cpp**)
 
 # Example
 Create a json object
@@ -69,6 +69,19 @@ std::string s2 = value["string2"];
 bool d = value["bool"];
 Json object = value["json"];
 Json array = value["array"];
+```
+Check / remove field
+```cpp
+Json fields = {
+  {"field1", 987},
+  {"field2", 351},
+};
+std::cout << "fields = " << fields << std::endl; // {"field2":351,"field1":987}
+bool has_field_1 = fields.has_field("field1"); // true
+bool has_field_3 = fields.has_field("field3"); // false
+
+fields.remove_field("field1");
+std::cout << "fields = " << fields << std::endl; // {"field2":351}
 ```
 Increase/decrease by value (for type number only)
 ```cpp

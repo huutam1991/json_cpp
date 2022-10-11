@@ -61,6 +61,18 @@ int main(int argc, char **argv)
     std::cout << "object = " << object << std::endl;
     std::cout << "array = " << array << std::endl;
 
+    // Check / remove field
+    Json fields = {
+        {"field1", 987},
+        {"field2", 351},
+    };
+    std::cout << "fields = " << fields << std::endl; // {"field2":351,"field1":987}
+    bool has_field_1 = fields.has_field("field1"); // true
+    bool has_field_3 = fields.has_field("field3"); // false
+
+    fields.remove_field("field1");
+    std::cout << "fields = " << fields << std::endl; // {"field2":351}
+
     // Increase/decrease by value (for type number only)
     Json number;
     number["v"] = 1;
