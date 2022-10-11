@@ -38,7 +38,13 @@ Json json;
 json["type"] = "Car";
 std::cout << "json = " << json << std::endl;
 ```
-Get value (you can put any value that you wish)
+Get string value
+```cpp
+Json json;
+json["type"] = "Car";
+std::string json_str = json.get_string_value();
+```
+Set value (you can put value of any type as you wish)
 ```cpp
 Json json;
 json["int"] = 123;
