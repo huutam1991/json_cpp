@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <functional>
+#include <type_traits>
 
 #include "json_type_base.h"
 #include "json_value.h"
@@ -66,6 +67,9 @@ public:
 
     template<class T>
     Json& operator -=(T value);
+
+    template<class T>
+    void push_back(const T& value);
 };
 
 template<class T>

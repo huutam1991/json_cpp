@@ -119,3 +119,9 @@ int JsonObject::size()
 {
     return m_array.size();
 }
+
+template<>
+void JsonObject::push_back(const Json& value)
+{
+    m_array.push_back(value);
+}

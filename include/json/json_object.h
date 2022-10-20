@@ -33,8 +33,27 @@ public:
     void set_size(size_t size);
     int size();
 
+    template<class T>
+    void push_back(const T& value);
+
     friend class Json;
 };
+
+template<class T>
+void JsonObject::push_back(const T& value)
+{
+    Json data;
+    data = value;
+    m_array.push_back(data);
+}
+
+template<class T>
+void Json::push_back(const T& value)
+{
+    check_create_json_object(*this); // Create JsonObject if it does not exist
+    JsonObject& json_object = *(JsonObject*)m_value.get();
+    json_object.push_back(value);
+}
 
 template<class T>
 Json::Json(const std::string& key, const T& value)

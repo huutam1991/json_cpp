@@ -117,6 +117,17 @@ int main(int argc, char **argv)
     arr[5] = {"color", "green"};
     std::cout << "array = " << arr << std::endl; // [234,34.58,false,true,"TamNguyen",{"color":"green"}]
 
+    // Or you can push elements to an array
+    Json arr2 = Json::create_array();
+    std::cout << "array = " << arr2 << std::endl; // []
+    arr2.push_back(234);
+    arr2.push_back(34.58);
+    arr2.push_back(false);
+    arr2.push_back(true);
+    arr2.push_back("TamNguyen");
+    arr2.push_back(Json{"color", "green"});
+    std::cout << "array = " << arr2 << std::endl; // [234,34.58,false,true,"TamNguyen",{"color":"green"}]
+
     // Loop through array with index
     arr.for_each_with_index([](size_t index, Json& child)
     {

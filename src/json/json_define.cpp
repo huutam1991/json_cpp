@@ -134,6 +134,14 @@ Json& Json::operator[](int index)
     return json_object[index];
 }
 
+template<>
+void Json::push_back(const Json& value)
+{
+    check_create_json_object(*this); // Create JsonObject if it does not exist
+    JsonObject& json_object = *(JsonObject*)m_value.get();
+    json_object.push_back(value);
+}
+
 void Json::for_each(std::function<void(Json&)> loop_func) const
 {
     // Only JsonObject is able to loop as it has child elements
