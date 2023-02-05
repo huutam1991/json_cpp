@@ -81,7 +81,7 @@ Json JsonParse::parse(const std::string& object)
 
     if (m_size == 0)
     {
-        res = std::string("Invalid Json format");
+        res = JsonNull();
         return res;
     }
 
@@ -97,7 +97,7 @@ Json JsonParse::parse(const std::string& object)
     res = m_object_string[start - 1] == '{' ? parse_object(start) : parse_array(start);
     if (m_is_valid == false)
     {
-        res = std::string("Invalid Json format");
+        res = JsonNull();
     }
 
     return res;
@@ -121,6 +121,13 @@ Json JsonParse::parse_object(size_t& start_pos)
     while (m_object_string[start_pos] != '}')
     {
         std::string key = parse_key(start_pos);
+
+        // Case: empty object
+        if (key == "}")
+        {
+            return res;
+        }
+
         Json value = parse_value(start_pos);
         res[key] = value;
 
@@ -154,11 +161,19 @@ std::string JsonParse::parse_key(size_t& start_pos)
 {
     // Find first character '\"'
     size_t start = start_pos;
-    while (m_object_string[start] != '\"')
+    while (m_object_string[start] != '\"' && m_object_string[start] != '}')
     {
         start++;
         if (check_exceed_size(start)) break;
     }
+
+    // Case: empty object
+    if (m_object_string[start] == '}')
+    {
+        start_pos = start + 1;
+        return "}";
+    }
+
     start++;
 
     // Find second character '\"'

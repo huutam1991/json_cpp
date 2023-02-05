@@ -117,7 +117,7 @@ void JsonObject::set_size(size_t size)
 
 int JsonObject::size()
 {
-    return m_array.size();
+    return m_is_object ? m_object.size() : m_array.size();
 }
 
 template<>

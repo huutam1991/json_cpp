@@ -100,6 +100,23 @@ void Json::set_size(size_t size)
     }
 }
 
+void Json::set_is_string_format(bool val)
+{
+    // std::string
+    JsonValue<std::string>* str_ptr_cast = dynamic_cast<JsonValue<std::string>*>(m_value.get());
+    if (str_ptr_cast != nullptr)
+    {
+        str_ptr_cast->set_is_string_format(val);
+    }
+
+    // const char*
+    JsonValue<const char*>* char_ptr_cast = dynamic_cast<JsonValue<const char*>*>(m_value.get());
+    if (char_ptr_cast != nullptr)
+    {
+        char_ptr_cast->set_is_string_format(val);
+    }
+}
+
 int Json::size() const
 {
     JsonObject* ptr_cast = dynamic_cast<JsonObject*>(m_value.get());
@@ -439,5 +456,19 @@ Json::operator std::string()
         return *(JsonValue<std::string>*)m_value.get();
     }
 
-    return std::string();
+    return std::string("0");
+}
+
+template<>
+bool Json::operator==(const char* value)
+{
+    std::string json_value = Json::operator std::string();
+    return json_value == value;
+}
+
+template<>
+bool Json::operator!=(const char* value)
+{
+    std::string json_value = Json::operator std::string();
+    return json_value != value;
 }

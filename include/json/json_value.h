@@ -11,6 +11,8 @@ class JsonValue : public JsonTypeBase
 private:
     T m_value;
 
+    bool m_is_string_format = true; // Default is true for all std::string
+
 public:
     JsonValue(T value) : m_value(value) {}
 
@@ -22,6 +24,8 @@ public:
     void update_value(T value) { m_value = value; }
     void add_value(T value) { m_value += value; }
     void sub_value(T value) { m_value -= value; }
+
+    void set_is_string_format(bool val) { m_is_string_format = val; }
 
     operator T() { return m_value; }
 };

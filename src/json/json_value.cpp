@@ -6,14 +6,22 @@ template<>
 const std::string JsonValue<const char*>::get_string_value() const
 {
     std::string value(m_value);
-    return std::string("\"" + value + "\"");
+    if (m_is_string_format == true)
+    {
+        return std::string("\"" + value + "\"");
+    }
+    return value;
 }
 
 // std::string
 template<>
 const std::string JsonValue<std::string>::get_string_value() const
 {
-    return std::string("\"" + m_value + "\"");
+    if (m_is_string_format == true)
+    {
+        return std::string("\"" + m_value + "\"");
+    }
+    return m_value;
 }
 
 // bool

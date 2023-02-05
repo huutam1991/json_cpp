@@ -39,6 +39,7 @@ public:
     bool is_array() const;
     bool is_null() const;
     void set_size(size_t size);
+    void set_is_string_format(bool val);
     int size() const;
     void for_each(std::function<void(Json&)> loop_func) const;
     void for_each_with_key(std::function<void(const std::string&,Json&)> loop_func) const;
@@ -70,6 +71,9 @@ public:
 
     template<class T>
     void push_back(const T& value);
+
+    template<class T>
+    bool is_type();
 };
 
 template<class T>
@@ -152,6 +156,13 @@ Json& Json::operator-=(T value)
     }
 
     return *this;
+}
+
+template<class T>
+bool Json::is_type()
+{
+    JsonValue<T>* ptr_cast = dynamic_cast<JsonValue<T>*>(m_value.get());
+    return ptr_cast != nullptr;
 }
 
 template<class T>
