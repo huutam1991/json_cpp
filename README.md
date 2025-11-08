@@ -58,7 +58,7 @@ value["string"] = std::string("Text");
 value["string2"] = "Text 2";
 value["bool"] = true;
 value["json"] = {"author", "TamNguyen"};
-value["array"] = Json::create_array();
+value["array"] = Json();
 ```
 Get value (pls specific the type of value)
 ```cpp
@@ -117,7 +117,7 @@ loop.for_each_with_key([](const std::string& key, Json& child)
 ```
 Json array
 ```cpp
-Json array = Json::create_array();
+Json array;
 std::cout << "array = " << array << std::endl; // []
 array[0] = 234;
 array[1] = 34.58;
@@ -129,7 +129,7 @@ std::cout << "array = " << array << std::endl; // [234,34.58,false,true,"TamNguy
 ```
 Or you can push elements to an array
 ```cpp
-Json arr2 = Json::create_array();
+Json arr2;
 std::cout << "array = " << arr2 << std::endl; // []
 arr2.push_back(234);
 arr2.push_back(34.58);
@@ -149,7 +149,7 @@ arr.for_each_with_index([](size_t index, Json& child)
 ```
 Sort array
 ```cpp
-Json arr_sort = Json::create_array();
+Json arr_sort;
 arr_sort[0] = {"value", 712};
 arr_sort[1] = {"value", 4334};
 arr_sort[2] = {"value", 132};
