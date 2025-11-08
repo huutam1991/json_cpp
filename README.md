@@ -2,7 +2,7 @@
 Very simple, very fast Json for C++
 
 # Usage
-Very simple, just copy 2 folders **include/json** and **src/json** to your project, then put **#include <json/json.h>** to the file's header (pls take a look at **src/main.cpp**). That's it !!!
+Very simple, just copy 2 folders **src/json** and **src/cache** to your project, then put **#include <json/json.h>** to the file's header (pls take a look at **src/main.cpp**). That's it !!!
 
 # Example
 Create a json object
