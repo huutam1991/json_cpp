@@ -9,7 +9,7 @@
 #include <cache/cache_pool.h>
 
 class JsonObject;
-using JsonObjectPool = CachePool<JsonObject, 10000000>;
+using JsonObjectPool = CachePool<JsonObject, 1000>;
 
 class JsonObject : public JsonTypeBase
 {
