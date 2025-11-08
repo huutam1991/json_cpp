@@ -2,14 +2,16 @@ cmake_minimum_required(VERSION 3.16)
 project(json_cpp)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories("/usr/local/lib")
 include_directories(include)
+include_directories(src)
 
 # Header files
 file (GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS
-    ${PROJECT_SOURCE_DIR}/include/*.h
-    ${PROJECT_SOURCE_DIR}/include/*.hpp
+    ${PROJECT_SOURCE_DIR}/src/*.h
+    ${PROJECT_SOURCE_DIR}/src/*.hpp
 )
 
 # Source files

@@ -1,87 +1,28 @@
-#include <string.h>
+#include <string>
+#include <iostream>
+#include <charconv>
 
 #include <json/json_parse.h>
 
-#define TRUE_VALUE 1
-#define FALSE_VALUE 2
-#define NOT_BOOLEAN_VALUE 0
-
-bool is_number(char c)
-{
-    int n = c - '0';
-    return (n >= 0 && n <= 9) || c == '-';
-}
-
-bool is_letter(char c)
-{
-    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-}
-
-int is_boolean(const char* m_object_string, size_t start, size_t size)
-{
-    // Check true value
-    if (start + 4 < size &&
-        is_letter(m_object_string[start + 4]) == false &&
-        m_object_string[start]     == 't' &&
-        m_object_string[start + 1] == 'r' &&
-        m_object_string[start + 2] == 'u' &&
-        m_object_string[start + 3] == 'e')
-    {
-        return TRUE_VALUE;
-    }
-    else if (start + 5 < size &&
-        is_letter(m_object_string[start + 5]) == false &&
-        m_object_string[start]     == 'f' &&
-        m_object_string[start + 1] == 'a' &&
-        m_object_string[start + 2] == 'l' &&
-        m_object_string[start + 3] == 's' &&
-        m_object_string[start + 4] == 'e'
-    )
-    {
-        return FALSE_VALUE;
-    }
-
-    return NOT_BOOLEAN_VALUE;
-}
-
-bool is_null(const char* m_object_string, size_t start, size_t size)
-{
-    // Check true value
-    if (start + 4 < size &&
-        is_letter(m_object_string[start + 4]) == false &&
-        is_number(m_object_string[start + 4]) == false &&
-        m_object_string[start]     == 'n' &&
-        m_object_string[start + 1] == 'u' &&
-        m_object_string[start + 2] == 'l' &&
-        m_object_string[start + 3] == 'l')
-    {
-        return true;
-    }
-
-    return false;
-}
-
-
-std::string get_sub_string(const char* m_object_string, size_t start, size_t end)
+ShareString JsonParseNew::get_sub_string(size_t start, size_t end)
 {
     size_t size = end - start;
-
-    char s[size + 1];
-    memcpy(s, m_object_string + start, size);
-    s[size] = '\0'; // Add character '\0' at the end
-
-    return std::string(s);
+    return ShareString(m_share_string.from_substr(start, size));
 }
 
-Json JsonParse::parse(const std::string& object)
+JsonParseNew::JsonParseNew(std::string object) : m_share_string(std::move(object))
+{}
+
+Json JsonParseNew::parse()
 {
     Json res;
-    m_object_string = object.c_str();
-    m_size = object.size();
+
+    m_object_string = m_share_string.data();
+    m_size = m_object_string.size();
 
     if (m_size == 0)
     {
-        res = JsonNull();
+        res = nullptr; // If the object is empty, return null
         return res;
     }
 
@@ -97,13 +38,13 @@ Json JsonParse::parse(const std::string& object)
     res = m_object_string[start - 1] == '{' ? parse_object(start) : parse_array(start);
     if (m_is_valid == false)
     {
-        res = JsonNull();
+        res = nullptr; // If parsing failed, return null
     }
 
     return res;
 }
 
-bool JsonParse::check_exceed_size(size_t index)
+bool JsonParseNew::check_exceed_size(size_t index)
 {
     if (index >= m_size)
     {
@@ -114,7 +55,7 @@ bool JsonParse::check_exceed_size(size_t index)
     return false;
 }
 
-Json JsonParse::parse_object(size_t& start_pos)
+Json JsonParseNew::parse_object(size_t& start_pos)
 {
     Json res;
 
@@ -123,13 +64,13 @@ Json JsonParse::parse_object(size_t& start_pos)
         std::string key = parse_key(start_pos);
 
         // Case: empty object
-        if (key == "}")
+        if (key.data() == "}")
         {
             return res;
         }
 
         Json value = parse_value(start_pos);
-        res[key] = value;
+        res[std::string(key.data())] = value;
 
         if (check_exceed_size(start_pos)) break;
     }
@@ -139,7 +80,7 @@ Json JsonParse::parse_object(size_t& start_pos)
     return res;
 }
 
-Json JsonParse::parse_array(size_t& start_pos)
+Json JsonParseNew::parse_array(size_t& start_pos)
 {
     Json res;
     int index = 0;
@@ -157,7 +98,7 @@ Json JsonParse::parse_array(size_t& start_pos)
     return res;
 }
 
-std::string JsonParse::parse_key(size_t& start_pos)
+std::string JsonParseNew::parse_key(size_t& start_pos)
 {
     // Find first character '\"'
     size_t start = start_pos;
@@ -186,10 +127,10 @@ std::string JsonParse::parse_key(size_t& start_pos)
 
     start_pos = end + 1;
 
-    return get_sub_string(m_object_string, start, end);
+    return std::string(get_sub_string(start, end).data());
 }
 
-Json JsonParse::parse_value(size_t& start_pos)
+Json JsonParseNew::parse_value(size_t& start_pos)
 {
     Json res;
     size_t start = start_pos;
@@ -197,8 +138,8 @@ Json JsonParse::parse_value(size_t& start_pos)
     while (m_object_string[start] != '\"' && m_object_string[start] != '{' &&
         m_object_string[start] != '[' &&
         is_number(m_object_string[start]) == false &&
-        is_boolean(m_object_string, start, m_size) == NOT_BOOLEAN_VALUE &&
-        is_null(m_object_string, start, m_size) == false)
+        is_boolean(m_object_string.data(), start, m_size) == NOT_BOOLEAN_VALUE &&
+        is_null(m_object_string.data(), start, m_size) == false)
     {
         if (m_object_string[start] == '}' || m_object_string[start] == ']')
         {
@@ -225,7 +166,7 @@ Json JsonParse::parse_value(size_t& start_pos)
         res = parse_value_number(start_pos);
     }
     // Boolean
-    else if (int bool_value = is_boolean(m_object_string, start, m_size))
+    else if (int bool_value = is_boolean(m_object_string.data(), start, m_size))
     {
         if (bool_value == TRUE_VALUE)
         {
@@ -239,9 +180,9 @@ Json JsonParse::parse_value(size_t& start_pos)
         }
     }
     // Null
-    else if (is_null(m_object_string, start, m_size))
+    else if (is_null(m_object_string.data(), start, m_size))
     {
-        res = JsonNull();
+        res = nullptr; // If null, return a null Json
         start_pos = start + 4;
     }
     // Object
@@ -267,7 +208,7 @@ Json JsonParse::parse_value(size_t& start_pos)
     return res;
 }
 
-std::string JsonParse::parse_value_string(size_t& start_pos)
+ShareString JsonParseNew::parse_value_string(size_t& start_pos)
 {
     size_t start = start_pos;
 
@@ -281,10 +222,10 @@ std::string JsonParse::parse_value_string(size_t& start_pos)
 
     start_pos = end + 1;
 
-    return get_sub_string(m_object_string, start, end);
+    return get_sub_string(start, end);
 }
 
-Json JsonParse::parse_value_number(size_t& start_pos)
+Json JsonParseNew::parse_value_number(size_t& start_pos)
 {
     Json res;
     size_t start = start_pos;
@@ -292,7 +233,7 @@ Json JsonParse::parse_value_number(size_t& start_pos)
 
     // Find end number
     size_t end = start_pos;
-    while (is_number(m_object_string[end]) || m_object_string[end] == '.')
+    while (is_number(m_object_string[end]) || m_object_string[end] == '.' || (m_object_string[end] == 'e' && m_object_string[end + 1] == '-'))
     {
         if (m_object_string[end] == '.') is_float = true;
 
@@ -302,14 +243,26 @@ Json JsonParse::parse_value_number(size_t& start_pos)
 
     start_pos = end;
 
-    std::string number_string = get_sub_string(m_object_string, start, end);
-    if (is_float)
+    std::string_view number_string = get_sub_string(start, end).data();
+    if (is_float == false)
     {
-        res = std::stold(number_string);
+        int64_t int_number = 0;
+        auto [ptr, ec] = std::from_chars(number_string.data(), number_string.data() + number_string.size(), int_number);
+        if (ec == std::errc())
+        {
+            // Success
+            res = int_number;
+        }
     }
     else
     {
-        res = std::stol(number_string);
+        double double_number = 0.0;
+        auto [ptr, ec] = std::from_chars(number_string.data(), number_string.data() + number_string.size(), double_number);
+        if (ec == std::errc())
+        {
+            // Success
+            res = double_number;
+        }
     }
 
     return res;

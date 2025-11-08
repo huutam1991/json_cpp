@@ -28,7 +28,9 @@ int main(int argc, char **argv)
         {"is_devops", false}
     };
 
-    Json json3 = {"tam", 131.2342};
+    Json json3 = {
+        {"tam", 131.2342}
+    };
 
     // Print out example
     Json data;
@@ -42,8 +44,8 @@ int main(int argc, char **argv)
     value["string"] = std::string("Text");
     value["string2"] = "Text 2";
     value["bool"] = true;
-    value["json"] = {"author", "TamNguyen"};
-    value["array"] = Json::create_array();
+    value["json"] = {{"author", "TamNguyen"}};
+    value["array"] = Json();
 
     long a = value["int"];
     double b = value["float"];
@@ -107,25 +109,25 @@ int main(int argc, char **argv)
     std::cout << "p = " << p << std::endl; // {"value":345}
 
     // Json array
-    Json arr = Json::create_array();
+    Json arr;
     std::cout << "array = " << arr << std::endl; // []
     arr[0] = 234;
     arr[1] = 34.58;
     arr[2] = false;
     arr[3] = true;
     arr[4] = "TamNguyen";
-    arr[5] = {"color", "green"};
+    arr[5] = {{"color", "green"}};
     std::cout << "array = " << arr << std::endl; // [234,34.58,false,true,"TamNguyen",{"color":"green"}]
 
     // Or you can push elements to an array
-    Json arr2 = Json::create_array();
+    Json arr2;
     std::cout << "array = " << arr2 << std::endl; // []
     arr2.push_back(234);
     arr2.push_back(34.58);
     arr2.push_back(false);
     arr2.push_back(true);
     arr2.push_back("TamNguyen");
-    arr2.push_back(Json{"color", "green"});
+    arr2.push_back(Json{{"color", "green"}});
     std::cout << "array = " << arr2 << std::endl; // [234,34.58,false,true,"TamNguyen",{"color":"green"}]
 
     // Loop through array with index
@@ -136,10 +138,10 @@ int main(int argc, char **argv)
     });
 
     // Sort array
-    Json arr_sort = Json::create_array();
-    arr_sort[0] = {"value", 712};
-    arr_sort[1] = {"value", 4334};
-    arr_sort[2] = {"value", 132};
+    Json arr_sort;
+    arr_sort[0] = {{"value", 712}};
+    arr_sort[1] = {{"value", 4334}};
+    arr_sort[2] = {{"value", 132}};
     std::cout << "arr_sort = " << arr_sort << std::endl; // [{"value":712},{"value":4334},{"value":132}]
 
     arr_sort.sort([](Json& a, Json& b) -> bool

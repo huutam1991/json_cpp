@@ -1,39 +1,25 @@
+#include <charconv>
 #include <json/json_value.h>
-#include <json/json.h>
 
-// const char*
-template<>
-const std::string JsonValue<const char*>::get_string_value() const
+JsonValue::JsonValue()
 {
-    std::string value(m_value);
-    if (m_is_string_format == true)
+    is_json_value_ptr = static_cast<IsJsonValuePtr>(&JsonValue::is_json_value);
+    get_copy_ptr = static_cast<GetCopyPtr>(&JsonValue::get_copy);
+    get_deep_clone_ptr = static_cast<GetCopyPtr>(&JsonValue::get_deep_clone);
+    write_string_value_ptr = static_cast<WriteStringValuePtr>(&JsonValue::write_string_value);
+    release_ptr = static_cast<ReleasePtr>(&JsonValue::release);
+}
+
+template<>
+JsonValue::operator std::string() const
+{
+    if (std::holds_alternative<ShareString>(m_value))
     {
-        return std::string("\"" + value + "\"");
+        std::string_view str_view = std::get<ShareString>(m_value).data();
+        return std::string(str_view);
     }
-    return value;
-}
-
-// std::string
-template<>
-const std::string JsonValue<std::string>::get_string_value() const
-{
-    if (m_is_string_format == true)
+    else
     {
-        return std::string("\"" + m_value + "\"");
+        return {};
     }
-    return m_value;
-}
-
-// bool
-template<>
-const std::string JsonValue<bool>::get_string_value() const
-{
-    return std::string(m_value == true ? "true" : "false");
-}
-
-// JsonNull
-template<>
-const std::string JsonValue<JsonNull>::get_string_value() const
-{
-    return std::string("null");
 }
